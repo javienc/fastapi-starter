@@ -136,7 +136,7 @@
             <li>First, get your authentication token:
                 <div class="code-container">
                     <button class="copy-button">Copy</button>
-                    <pre><code>curl -X POST http://localhost:8000/token \
+                    <pre><code>curl -X POST http://127.0.0.1:8000/token \
     -d "username=testuser&password=testpass" \
     -H "Content-Type: application/x-www-form-urlencoded"</code></pre>
                 </div>
@@ -152,7 +152,7 @@
             <li>Use the received token in subsequent requests:
                 <div class="code-container">
                     <button class="copy-button">Copy</button>
-                    <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://localhost:8000/items</code></pre>
+                    <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://127.0.0.1:8000/items</code></pre>
                 </div>
             </li>
         </ol>
@@ -182,7 +182,7 @@
         <p>Check API status</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl http://localhost:8000/api</code></pre>
+            <pre><code>curl http://127.0.0.1:8000/api</code></pre>
         </div>
     </div>
 
@@ -197,7 +197,7 @@
         </ul>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl "http://localhost:8000/public/items?skip=0&limit=2"</code></pre>
+            <pre><code>curl "http://127.0.0.1:8000/public/items?skip=0&limit=2"</code></pre>
         </div>
     </div>
 
@@ -207,7 +207,7 @@
         <p>Get specific public item by ID</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl http://localhost:8000/public/items/1</code></pre>
+            <pre><code>curl http://127.0.0.1:8000/public/items/1</code></pre>
         </div>
     </div>
 
@@ -220,7 +220,7 @@
         <p>Get authentication token (valid for 24 hours)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X POST http://localhost:8000/token \
+            <pre><code>curl -X POST http://127.0.0.1:8000/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -d "username=testuser&password=testpass"</code></pre>
         </div>
@@ -232,7 +232,7 @@
         <p>Revoke current token</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X POST http://localhost:8000/token/revoke \
+            <pre><code>curl -X POST http://127.0.0.1:8000/token/revoke \
     -H "Authorization: Bearer user_testuser_1234567890"</code></pre>
         </div>
     </div>
@@ -248,7 +248,7 @@
         </ul>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" "http://localhost:8000/items?skip=0&limit=2"</code></pre>
+            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" "http://127.0.0.1:8000/items?skip=0&limit=2"</code></pre>
         </div>
     </div>
 
@@ -258,7 +258,7 @@
         <p>Get specific item by ID (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://localhost:8000/items/1</code></pre>
+            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://127.0.0.1:8000/items/1</code></pre>
         </div>
     </div>
 
@@ -268,7 +268,7 @@
         <p>Create new item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X POST http://localhost:8000/items \
+            <pre><code>curl -X POST http://127.0.0.1:8000/items \
     -H "Authorization: Bearer user_testuser_1234567890" \
     -H "Content-Type: application/json" \
     -d '{
@@ -287,7 +287,7 @@
         <p>Update entire item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X PUT http://localhost:8000/items/1 \
+            <pre><code>curl -X PUT http://127.0.0.1:8000/items/1 \
     -H "Authorization: Bearer user_testuser_1234567890" \
     -H "Content-Type: application/json" \
     -d '{
@@ -306,7 +306,7 @@
         <p>Partially update item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X PATCH http://localhost:8000/items/1 \
+            <pre><code>curl -X PATCH http://127.0.0.1:8000/items/1 \
     -H "Authorization: Bearer user_testuser_1234567890" \
     -H "Content-Type: application/json" \
     -d '{
@@ -322,7 +322,7 @@
         <p>Delete item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X DELETE -H "Authorization: Bearer user_testuser_1234567890" http://localhost:8000/items/1</code></pre>
+            <pre><code>curl -X DELETE -H "Authorization: Bearer user_testuser_1234567890" http://127.0.0.1:8000/items/1</code></pre>
         </div>
     </div>
 

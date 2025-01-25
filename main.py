@@ -6,10 +6,17 @@ from datetime import datetime, timedelta
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from pathlib import Path as FilePath
+import os
 
-app = FastAPI(title="Enhanced FastAPI Demo",
-             description="A demo showing common FastAPI features",
-             version="1.0.0")
+# Get API URL from environment variable, default to localhost if not set
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
+
+app = FastAPI(
+    title="Enhanced FastAPI Demo",
+    description="A demo showing common FastAPI features",
+    version="1.0.0",
+    servers=[{"url": API_URL, "description": "Current Environment"}]
+)
 
 templates = Jinja2Templates(directory="templates")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

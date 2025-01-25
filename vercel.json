@@ -10,5 +10,8 @@
             "src": "/(.*)",
             "dest": "main.py"
         }
-    ]
+    ],
+    "env": {
+        "API_URL": "https://your-project-name.vercel.app"
+    }
 }

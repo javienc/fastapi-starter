@@ -37,30 +37,64 @@ python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
 
-3. Install dependencies:
+3. Install dependencies (choose one option):
 
-```bash
-pip install fastapi uvicorn python-multipart jinja2
-```
+    #### Option 1: Install from requirements.txt
+    ```bash
+    pip install -r requirements.txt
+    ```
 
+    #### Option 2: Install packages directly
+    ```bash
+    pip install fastapi uvicorn python-multipart jinja2 python-dotenv fastapi-cli
+    ```
+    
 ## 🏃‍♂️ Running the Application
 
-Start the server with:
+You can start the server in several ways:
+
+1. Using FastAPI CLI (recommended):
+
+    ```bash
+    fastapi dev main.py
+    ```
+
+    #### or start with host localhost and port 8000
+
+    ```bash
+    fastapi dev main.py --host localhost --port 8000 --proxy-headers
+    ```
+
+2. Using uvicorn directly:
+
+    ```bash
+    uvicorn main:app --reload
+    ```
+
+    #### or start with host localhost and port 8000
+
+    ```bash
+    uvicorn main:app --reload --port 8000 --host localhost
+    ```
+
+3. Using python -m:
 
 ```bash
-uvicorn main:app --reload
+python -m uvicorn main:app --reload
 ```
 
-The application will be available at `http://localhost:8000`
+The application will be available at:
+- Development: `http://127.0.0.1:8000`
+- Production: Check your environment's API_URL setting
 
 ## 📚 API Documentation
 
 Visit these URLs after starting the application:
 
-- Tutorial Page: [http://localhost:8000/](http://localhost:8000/)
-- Swagger UI: [http://localhost:8000/docs](http://localhost:8000/docs)
-- ReDoc: [http://localhost:8000/redoc](http://localhost:8000/redoc)
-- OpenAPI Schema: [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json)
+- Tutorial Page: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+- Swagger UI: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc: [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+- OpenAPI Schema: [http://127.0.0.1:8000/openapi.json](http://127.0.0.1:8000/openapi.json)
 
 ## 🔑 Authentication
 
@@ -100,7 +134,7 @@ Password: testpass
 ### Get Authentication Token
 
 ```bash
-curl -X POST http://localhost:8000/token \
+curl -X POST http://127.0.0.1:8000/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -d "username=testuser&password=testpass"
 ```
@@ -108,7 +142,7 @@ curl -X POST http://localhost:8000/token \
 ### Create New Item
 
 ```bash
-curl -X POST http://localhost:8000/items \
+curl -X POST http://127.0.0.1:8000/items \
     -H "Authorization: Bearer your_token_here" \
     -H "Content-Type: application/json" \
     -d '{

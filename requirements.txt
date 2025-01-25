@@ -1,6 +1,7 @@
-
 fastapi
 uvicorn
 pydantic[email]
 python-multipart
 jinja2
+python-dotenv
+fastapi-cli
