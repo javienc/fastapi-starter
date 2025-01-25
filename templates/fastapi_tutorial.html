@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Demo Tutorial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .endpoint {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .get { background-color: #61affe; color: white; }
+        .post { background-color: #49cc90; color: white; }
+        .put { background-color: #fca130; color: white; }
+        .delete { background-color: #f93e3e; color: white; }
+        .patch { background-color: #50e3c2; color: white; }
+        pre {
+            background-color: #e9ecef;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .quick-start {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .demo-data {
+            background-color: #fff3e0;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .documentation-links {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .documentation-links ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .documentation-links li {
+            margin-bottom: 15px;
+        }
+        
+        .documentation-links a {
+            color: #0066cc;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .documentation-links a:hover {
+            text-decoration: underline;
+        }
+        
+        .documentation-links small {
+            color: #666;
+            display: block;
+            margin-top: 5px;
+        }
+        
+        .auth-info {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        
+        .auth-info code {
+            background-color: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        
+        .code-container {
+            position: relative;
+            margin: 10px 0;
+        }
+        
+        .copy-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        
+        .copy-button:hover {
+            background-color: #e9ecef;
+        }
+        
+        .copy-button.copied {
+            background-color: #28a745;
+            color: white;
+            border-color: #28a745;
+        }
+        
+        pre {
+            padding-top: 30px !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>FastAPI Demo API Guide</h1>
+
+    <div class="quick-start">
+        <h2>🚀 Quick Start</h2>
+        <ol>
+            <li>First, get your authentication token:
+                <div class="code-container">
+                    <button class="copy-button">Copy</button>
+                    <pre><code>curl -X POST http://localhost:8000/token \
+    -d "username=testuser&password=testpass" \
+    -H "Content-Type: application/x-www-form-urlencoded"</code></pre>
+                </div>
+                <p>This will return a response like:</p>
+                <div class="code-container">
+                    <button class="copy-button">Copy</button>
+                    <pre><code>{
+    "access_token": "user_testuser_1234567890",
+    "expires_at": "2024-03-21T10:30:00"
+}</code></pre>
+                </div>
+            </li>
+            <li>Use the received token in subsequent requests:
+                <div class="code-container">
+                    <button class="copy-button">Copy</button>
+                    <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://localhost:8000/items</code></pre>
+                </div>
+            </li>
+        </ol>
+    </div>
+
+    <div class="demo-data">
+        <h2>📊 Demo Data</h2>
+        <p>The API comes pre-populated with sample items:</p>
+        <ul>
+            <li>Laptop (ID: 1) - $999.99</li>
+            <li>Smartphone (ID: 2) - $699.99</li>
+            <li>Coffee Maker (ID: 3) - $79.99</li>
+        </ul>
+        <p>Test User Credentials:</p>
+        <ul>
+            <li>Username: testuser</li>
+            <li>Password: testpass</li>
+        </ul>
+    </div>
+
+    <h2>📌 Public Endpoints</h2>
+    <p>These endpoints are accessible without authentication</p>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <a href="/api">/api</a>
+        <p>Check API status</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl http://localhost:8000/api</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <a href="/public/items">/public/items</a>
+        <p>List public items (No auth required)</p>
+        <p>Parameters:</p>
+        <ul>
+            <li>skip: Skip first N items (default: 0)</li>
+            <li>limit: Maximum number of items to return (default: 10)</li>
+        </ul>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl "http://localhost:8000/public/items?skip=0&limit=2"</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <a href="/public/items/1">/public/items/{item_id}</a>
+        <p>Get specific public item by ID</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl http://localhost:8000/public/items/1</code></pre>
+        </div>
+    </div>
+
+    <h2>🔒 Protected Endpoints</h2>
+    <p>These endpoints require authentication</p>
+
+    <div class="endpoint">
+        <span class="method post">POST</span>
+        <code>/token</code>
+        <p>Get authentication token (valid for 24 hours)</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -X POST http://localhost:8000/token \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "username=testuser&password=testpass"</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method post">POST</span>
+        <code>/token/revoke</code>
+        <p>Revoke current token</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -X POST http://localhost:8000/token/revoke \
+    -H "Authorization: Bearer user_testuser_1234567890"</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <a href="/items?skip=0&limit=2">/items?skip=0&limit=2</a>
+        <p>List items with pagination (Auth required)</p>
+        <p>Parameters:</p>
+        <ul>
+            <li>skip: Skip first N items (default: 0)</li>
+            <li>limit: Maximum number of items to return (default: 10)</li>
+        </ul>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" "http://localhost:8000/items?skip=0&limit=2"</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method get">GET</span>
+        <a href="/items/1">/items/1</a>
+        <p>Get specific item by ID (Auth required)</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://localhost:8000/items/1</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method post">POST</span>
+        <code>/items</code>
+        <p>Create new item (Auth required)</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -X POST http://localhost:8000/items \
+    -H "Authorization: Bearer user_testuser_1234567890" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "name": "New Item",
+        "description": "A brand new item",
+        "price": 49.99,
+        "tags": ["new", "sample"],
+        "is_offer": false
+    }'</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method put">PUT</span>
+        <code>/items/1</code>
+        <p>Update entire item (Auth required)</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -X PUT http://localhost:8000/items/1 \
+    -H "Authorization: Bearer user_testuser_1234567890" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "name": "Updated Laptop",
+        "description": "Updated high-performance laptop",
+        "price": 1099.99,
+        "tags": ["electronics", "computers", "updated"],
+        "is_offer": true
+    }'</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method patch">PATCH</span>
+        <code>/items/1</code>
+        <p>Partially update item (Auth required)</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -X PATCH http://localhost:8000/items/1 \
+    -H "Authorization: Bearer user_testuser_1234567890" \
+    -H "Content-Type: application/json" \
+    -d '{
+        "price": 899.99,
+        "is_offer": true
+    }'</code></pre>
+        </div>
+    </div>
+
+    <div class="endpoint">
+        <span class="method delete">DELETE</span>
+        <code>/items/1</code>
+        <p>Delete item (Auth required)</p>
+        <div class="code-container">
+            <button class="copy-button">Copy</button>
+            <pre><code>curl -X DELETE -H "Authorization: Bearer user_testuser_1234567890" http://localhost:8000/items/1</code></pre>
+        </div>
+    </div>
+
+    <h2>🔑 Authentication</h2>
+    <div class="auth-info">
+        <p>Token Management:</p>
+        <ul>
+            <li>Tokens are automatically generated when logging in</li>
+            <li>Tokens expire after 24 hours</li>
+            <li>Token format: <code>user_username_timestamp</code></li>
+            <li>You can manually revoke tokens using the /token/revoke endpoint</li>
+            <li>Protected endpoints require the Authorization header:
+                <pre>Authorization: Bearer user_testuser_1234567890</pre>
+            </li>
+        </ul>
+    </div>
+
+    <h2>📚 API Documentation</h2>
+    <div class="documentation-links">
+        <p>FastAPI provides automatic interactive API documentation:</p>
+        <ul>
+            <li>
+                <a href="/docs" target="_blank">Swagger UI Documentation</a>
+                <br>
+                <small>Interactive documentation with a modern interface. Allows testing endpoints directly.</small>
+            </li>
+            <li>
+                <a href="/redoc" target="_blank">ReDoc Documentation</a>
+                <br>
+                <small>Alternative documentation view with a clean, easy-to-read layout.</small>
+            </li>
+            <li>
+                <a href="/openapi.json" target="_blank">OpenAPI Schema</a>
+                <br>
+                <small>Raw OpenAPI (formerly Swagger) specification in JSON format.</small>
+            </li>
+        </ul>
+    </div>
+
+    <h2>📝 Notes</h2>
+    <ul>
+        <li>All POST/PUT/PATCH requests require Content-Type: application/json header</li>
+        <li>Authentication tokens expire after 24 hours</li>
+        <li>Always replace the example token (<code>user_testuser_1234567890</code>) with your actual token</li>
+        <li>You can manually revoke tokens using the /token/revoke endpoint</li>
+        <li>Error responses include detailed messages to help with debugging</li>
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.copy-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const pre = this.nextElementSibling;
+                    const code = pre.textContent;
+                    
+                    // Create a temporary textarea element
+                    const textarea = document.createElement('textarea');
+                    textarea.value = code;
+                    textarea.setAttribute('readonly', '');
+                    textarea.style.position = 'absolute';
+                    textarea.style.left = '-9999px';
+                    document.body.appendChild(textarea);
+                    
+                    // Select the text and copy it
+                    textarea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textarea);
+                    
+                    // Visual feedback
+                    this.textContent = 'Copied!';
+                    this.classList.add('copied');
+                    
+                    // Reset button after 2 seconds
+                    setTimeout(() => {
+                        this.textContent = 'Copy';
+                        this.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
