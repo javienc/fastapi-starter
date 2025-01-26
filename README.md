@@ -172,6 +172,34 @@ fastapi-demo/
     └── fastapi_tutorial.html  # Tutorial page template
 ```
 
+## 🚀 Deployment on Vercel
+
+1. Fork/clone this repository
+
+2. Local Setup:
+   - Copy `.env.example` to `.env` for development:
+     ```bash
+     cp .env.example .env
+     ```
+   - The default development settings should work out of the box
+
+3. Vercel Setup:
+   - Create a new project on Vercel
+   - Connect your repository
+   - Copy environment variables from `.env.production.example`
+   - Configure these variables in Vercel dashboard (Project Settings > Environment Variables):
+     - `APP_ENV`: Set to "production"
+     - `API_URL`: Set to your Vercel deployment URL (you'll get this after first deploy)
+   
+4. Deploy the project
+   - After first deployment, copy your Vercel URL
+   - Update the `API_URL` in Vercel environment variables with your deployment URL
+   - Trigger a new deployment to apply the URL change
+
+Note: The example environment files are provided for reference:
+- `.env.example` - Template for local development
+- `.env.production.example` - Template for Vercel deployment
+
 ## 🤝 Contributing
 
 1. Fork the repository

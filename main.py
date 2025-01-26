@@ -144,7 +144,10 @@ async def read_api_status():
 
 @app.get("/", response_class=HTMLResponse)
 async def get_tutorial(request: Request):
-    return templates.TemplateResponse("fastapi_tutorial.html", {"request": request})
+    return templates.TemplateResponse(
+        "fastapi_tutorial.html", 
+        {"request": request, "api_url": API_URL}
+    )
 
 @app.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):

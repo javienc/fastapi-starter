@@ -1,9 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FastAPI Demo Tutorial</title>
+    <script>
+        window.API_URL = "{{ api_url }}";
+
+        // Helper function to get full API URL
+        function getApiUrl(path) {
+            return window.API_URL + path;
+        }
+    </script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,12 +21,14 @@
             padding: 20px;
             line-height: 1.6;
         }
+
         .endpoint {
             background-color: #f5f5f5;
             padding: 15px;
             margin: 10px 0;
             border-radius: 5px;
         }
+
         .method {
             display: inline-block;
             padding: 3px 8px;
@@ -25,80 +36,104 @@
             font-weight: bold;
             margin-right: 10px;
         }
-        .get { background-color: #61affe; color: white; }
-        .post { background-color: #49cc90; color: white; }
-        .put { background-color: #fca130; color: white; }
-        .delete { background-color: #f93e3e; color: white; }
-        .patch { background-color: #50e3c2; color: white; }
+
+        .get {
+            background-color: #61affe;
+            color: white;
+        }
+
+        .post {
+            background-color: #49cc90;
+            color: white;
+        }
+
+        .put {
+            background-color: #fca130;
+            color: white;
+        }
+
+        .delete {
+            background-color: #f93e3e;
+            color: white;
+        }
+
+        .patch {
+            background-color: #50e3c2;
+            color: white;
+        }
+
         pre {
             background-color: #e9ecef;
             padding: 10px;
             border-radius: 4px;
             overflow-x: auto;
         }
+
         .quick-start {
             background-color: #e3f2fd;
             padding: 20px;
             border-radius: 5px;
             margin: 20px 0;
         }
+
         .demo-data {
             background-color: #fff3e0;
             padding: 20px;
             border-radius: 5px;
             margin: 20px 0;
         }
+
         .documentation-links {
             background-color: #f8f9fa;
             padding: 20px;
             border-radius: 5px;
             margin: 20px 0;
         }
-        
+
         .documentation-links ul {
             list-style-type: none;
             padding-left: 0;
         }
-        
+
         .documentation-links li {
             margin-bottom: 15px;
         }
-        
+
         .documentation-links a {
             color: #0066cc;
             text-decoration: none;
             font-weight: bold;
         }
-        
+
         .documentation-links a:hover {
             text-decoration: underline;
         }
-        
+
         .documentation-links small {
             color: #666;
             display: block;
             margin-top: 5px;
         }
-        
+
         .auth-info {
             background-color: #e8f5e9;
             padding: 20px;
             border-radius: 5px;
             margin: 20px 0;
         }
-        
+
         .auth-info code {
             background-color: #f5f5f5;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: monospace;
         }
-        
+
         .code-container {
             position: relative;
             margin: 10px 0;
         }
-        
+
         .copy-button {
             position: absolute;
             top: 5px;
@@ -111,22 +146,23 @@
             font-size: 12px;
             transition: all 0.2s;
         }
-        
+
         .copy-button:hover {
             background-color: #e9ecef;
         }
-        
+
         .copy-button.copied {
             background-color: #28a745;
             color: white;
             border-color: #28a745;
         }
-        
+
         pre {
             padding-top: 30px !important;
         }
     </style>
 </head>
+
 <body>
     <h1>FastAPI Demo API Guide</h1>
 
@@ -136,7 +172,7 @@
             <li>First, get your authentication token:
                 <div class="code-container">
                     <button class="copy-button">Copy</button>
-                    <pre><code>curl -X POST http://127.0.0.1:8000/token \
+                    <pre><code>curl -X POST {{ api_url }}/token \
     -d "username=testuser&password=testpass" \
     -H "Content-Type: application/x-www-form-urlencoded"</code></pre>
                 </div>
@@ -152,7 +188,7 @@
             <li>Use the received token in subsequent requests:
                 <div class="code-container">
                     <button class="copy-button">Copy</button>
-                    <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://127.0.0.1:8000/items</code></pre>
+                    <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" {{ api_url }}/items</code></pre>
                 </div>
             </li>
         </ol>
@@ -178,17 +214,17 @@
 
     <div class="endpoint">
         <span class="method get">GET</span>
-        <a href="/api">/api</a>
+        <a href="{{ api_url }}/api">/api</a>
         <p>Check API status</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl http://127.0.0.1:8000/api</code></pre>
+            <pre><code>curl {{ api_url }}/api</code></pre>
         </div>
     </div>
 
     <div class="endpoint">
         <span class="method get">GET</span>
-        <a href="/public/items">/public/items</a>
+        <a href="{{ api_url }}/public/items">/public/items</a>
         <p>List public items (No auth required)</p>
         <p>Parameters:</p>
         <ul>
@@ -197,17 +233,17 @@
         </ul>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl "http://127.0.0.1:8000/public/items?skip=0&limit=2"</code></pre>
+            <pre><code>curl "{{ api_url }}/public/items?skip=0&limit=2"</code></pre>
         </div>
     </div>
 
     <div class="endpoint">
         <span class="method get">GET</span>
-        <a href="/public/items/1">/public/items/{item_id}</a>
+        <a href="{{ api_url }}/public/items/1">/public/items/{item_id}</a>
         <p>Get specific public item by ID</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl http://127.0.0.1:8000/public/items/1</code></pre>
+            <pre><code>curl {{ api_url }}/public/items/1</code></pre>
         </div>
     </div>
 
@@ -220,7 +256,7 @@
         <p>Get authentication token (valid for 24 hours)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X POST http://127.0.0.1:8000/token \
+            <pre><code>curl -X POST {{ api_url }}/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -d "username=testuser&password=testpass"</code></pre>
         </div>
@@ -232,14 +268,14 @@
         <p>Revoke current token</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X POST http://127.0.0.1:8000/token/revoke \
+            <pre><code>curl -X POST {{ api_url }}/token/revoke \
     -H "Authorization: Bearer user_testuser_1234567890"</code></pre>
         </div>
     </div>
 
     <div class="endpoint">
         <span class="method get">GET</span>
-        <a href="/items?skip=0&limit=2">/items?skip=0&limit=2</a>
+        <a href="{{ api_url }}/items?skip=0&limit=2">/items?skip=0&limit=2</a>
         <p>List items with pagination (Auth required)</p>
         <p>Parameters:</p>
         <ul>
@@ -248,17 +284,17 @@
         </ul>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" "http://127.0.0.1:8000/items?skip=0&limit=2"</code></pre>
+            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" "{{ api_url }}/items?skip=0&limit=2"</code></pre>
         </div>
     </div>
 
     <div class="endpoint">
         <span class="method get">GET</span>
-        <a href="/items/1">/items/1</a>
+        <a href="{{ api_url }}/items/1">/items/1</a>
         <p>Get specific item by ID (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" http://127.0.0.1:8000/items/1</code></pre>
+            <pre><code>curl -H "Authorization: Bearer user_testuser_1234567890" {{ api_url }}/items/1</code></pre>
         </div>
     </div>
 
@@ -268,7 +304,7 @@
         <p>Create new item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X POST http://127.0.0.1:8000/items \
+            <pre><code>curl -X POST {{ api_url }}/items \
     -H "Authorization: Bearer user_testuser_1234567890" \
     -H "Content-Type: application/json" \
     -d '{
@@ -287,7 +323,7 @@
         <p>Update entire item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X PUT http://127.0.0.1:8000/items/1 \
+            <pre><code>curl -X PUT {{ api_url }}/items/1 \
     -H "Authorization: Bearer user_testuser_1234567890" \
     -H "Content-Type: application/json" \
     -d '{
@@ -306,7 +342,7 @@
         <p>Partially update item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X PATCH http://127.0.0.1:8000/items/1 \
+            <pre><code>curl -X PATCH {{ api_url }}/items/1 \
     -H "Authorization: Bearer user_testuser_1234567890" \
     -H "Content-Type: application/json" \
     -d '{
@@ -322,7 +358,7 @@
         <p>Delete item (Auth required)</p>
         <div class="code-container">
             <button class="copy-button">Copy</button>
-            <pre><code>curl -X DELETE -H "Authorization: Bearer user_testuser_1234567890" http://127.0.0.1:8000/items/1</code></pre>
+            <pre><code>curl -X DELETE -H "Authorization: Bearer user_testuser_1234567890" {{ api_url }}/items/1</code></pre>
         </div>
     </div>
 
@@ -372,12 +408,25 @@
     </ul>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Replace all URLs in code blocks
+            document.querySelectorAll('pre code').forEach(codeBlock => {
+                let content = codeBlock.textContent;
+                content = content.replace(/http:\/\/127\.0\.0\.1:8000/g, window.API_URL);
+                codeBlock.textContent = content;
+            });
+
+            // Replace all URLs in href attributes
+            document.querySelectorAll('a[href^="http://127.0.0.1:8000"]').forEach(link => {
+                link.href = link.href.replace('http://127.0.0.1:8000', window.API_URL);
+            });
+
+            // Copy button logic
             document.querySelectorAll('.copy-button').forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     const pre = this.nextElementSibling;
                     const code = pre.textContent;
-                    
+
                     // Create a temporary textarea element
                     const textarea = document.createElement('textarea');
                     textarea.value = code;
@@ -385,16 +434,16 @@
                     textarea.style.position = 'absolute';
                     textarea.style.left = '-9999px';
                     document.body.appendChild(textarea);
-                    
+
                     // Select the text and copy it
                     textarea.select();
                     document.execCommand('copy');
                     document.body.removeChild(textarea);
-                    
+
                     // Visual feedback
                     this.textContent = 'Copied!';
                     this.classList.add('copied');
-                    
+
                     // Reset button after 2 seconds
                     setTimeout(() => {
                         this.textContent = 'Copy';
@@ -405,4 +454,5 @@
         });
     </script>
 </body>
-</html> 
+
+</html>
